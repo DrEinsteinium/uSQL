@@ -78,6 +78,13 @@ namespace uSQL
             return this;
         }
 
+        public SQLStatement GROUP(string by)
+        {
+            this.statement += string.Format(" GROUP BY {0}", by);
+            return this;
+        }
+
+
         public string FinalizeStatement()
         {
             return this.statement + ";";
