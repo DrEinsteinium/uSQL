@@ -15,13 +15,13 @@ namespace uSQL
 
         public SQLStatement SELECT(string selection = "*")
         {
-            this.statement += "SELECT " + selection + "";
+            this.statement += "SELECT " + selection;
             return this;
         }
 
         public SQLStatement FROM(string from)
         {
-            this.statement += " FROM '" + from + "'"; 
+            this.statement += " FROM " + from;
             return this;
         }
 
