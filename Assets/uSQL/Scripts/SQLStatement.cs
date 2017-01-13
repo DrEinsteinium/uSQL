@@ -58,6 +58,13 @@ namespace uSQL
             return this;
         }
 
+        public SQLStatement JOIN(SQLJoinType type, string by)
+        {
+            this.statement += string.Format(" {0} JOIN {1}", type.GetJoinTypeString(), by);
+            return this;
+        }
+
+
 
         public string FinalizeStatement()
         {
