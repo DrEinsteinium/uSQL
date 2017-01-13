@@ -88,6 +88,58 @@ namespace uSQL.MySQL
         /// Takes an SQL statement and executes it, returning an SQLTable object.
         /// </summary>
         /// <param name="statement">The SQL statement that should be executed.</param>
+        /// <returns></returns>
+        public SQLTable Execute(string statement)
+        {
+            MySqlDataReader reader = null;
+
+            try
+            {
+                this.Open();
+                if (this.Ping())
+                {
+                    SQLTable table = new SQLTable();
+                    MySqlCommand command = new MySqlCommand();
+                    command.CommandText = statement;
+
+                    reader = command.ExecuteReader();
+
+                    if (logQueries)
+                        UnityEngine.Debug.Log("Executing Statement[" + command.CommandText + "]");
+
+                    int colCount = reader.FieldCount;
+
+                    while (reader.Read())//foreach row
+                    {
+                        Dictionary<string, object> row = table.AddRow();
+
+                        for (int i = 0; i < colCount; i++)//go through each col
+                            row.Add(reader.GetName(i), reader.GetValue(i));
+                    }
+
+                    reader.Close();
+                    return table;
+                }
+            }
+            catch (Exception e)
+            {
+                UnityEngine.Debug.LogException(e);
+            }
+            finally
+            {
+                this.Close();
+                if (reader != null && !reader.IsClosed)
+                    reader.Close();
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// Takes an SQL statement and executes it, returning an SQLTable object.
+        /// </summary>
+        /// <param name="statement">The SQL statement that should be executed.</param>
         /// <param name="watch">The time that elapses when the SQL command is executed.</param>
         /// <returns></returns>
         public SQLTable Execute(string statement, out Stopwatch watch)
@@ -137,6 +189,16 @@ namespace uSQL.MySQL
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Takes an SQL statement and executes it, returning an SQLTable object.
+        /// </summary>
+        /// <param name="statement">The SQL statement that should be executed.</param>
+         /// <returns></returns>
+        public SQLTable Execute(SQLStatement statement)
+        {
+            return this.Execute(statement.FinalizeStatement());
         }
 
         /// <summary>
