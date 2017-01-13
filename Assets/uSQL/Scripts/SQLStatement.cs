@@ -70,6 +70,13 @@ namespace uSQL
             return this;
         }
 
+        public SQLStatement COUNT(string count_by, bool distinct = false)
+        {
+            if (distinct)
+                this.statement += string.Format(", COUNT(distinct {0})", count_by);
+            else this.statement += string.Format(", COUNT({0})", count_by);
+            return this;
+        }
 
         public string FinalizeStatement()
         {
