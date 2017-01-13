@@ -64,6 +64,11 @@ namespace uSQL
             return this;
         }
 
+        public SQLStatement LIMIT(int start, int finish)
+        {
+            this.statement += string.Format(" LIMIT {0},{1}", start, finish);
+            return this;
+        }
 
 
         public string FinalizeStatement()
