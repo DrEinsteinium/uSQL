@@ -63,7 +63,7 @@ namespace uSQL.MySQL
                 UnityEngine.Debug.Log("Closed connection to " + serverAddress + ":" + port);
         }
 
-        public bool Ping()
+        public bool Ping(bool closeConnection = false)
         {
             this.Open();
             bool result = false;
@@ -79,8 +79,9 @@ namespace uSQL.MySQL
             }
             else result = this.connection.Ping();
 
-            this.Close();
-            return result;            
+            if (closeConnection)
+                this.Close();
+            return result;
         }
 
         /// <summary>
