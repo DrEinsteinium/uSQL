@@ -29,18 +29,20 @@ namespace uSQL
         {
             this.statement += " WHERE";
             int paramCount = 0;
-            foreach(SQLParameter param in parameters)
+            foreach (SQLParameter param in parameters)
             {
-                if(paramCount != 0)
-                    this.statement += string.Format(" AND ('{0}'{2}'{1}')", param.GetName(), param.GetValue(), param.GetComparator().GetOperator());
+                if (paramCount != 0)
+                    this.statement += string.Format(" AND ({0}{2}{1})", param.GetName(), param.GetValue(), param.GetComparator().GetOperator());
                 else // if its the first statement we dont need AND
-                    this.statement += string.Format(" ('{0}'{2}'{1}')", param.GetName(), param.GetValue(), param.GetComparator().GetOperator());
+                    this.statement += string.Format(" ({0}{2}{1})", param.GetName(), param.GetValue(), param.GetComparator().GetOperator());
 
                 paramCount++;
             }
 
             return this;
         }
+
+
 
         public string FinalizeStatement()
         {
