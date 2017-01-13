@@ -15,7 +15,7 @@ namespace uSQL
 
         public SQLStatement SELECT(string selection = "*")
         {
-            this.statement += "SELECT '" + selection + "'";
+            this.statement += "SELECT " + selection + "";
             return this;
         }
 
